@@ -65,8 +65,27 @@ const login = async(req, res) => {
     }
 }
 
+const logout = async(req, res) => {
+    const refresToken = req.cookies.refresh_token
+    if(!refresToken) return res.sendStatus(204)
+    const user = await Users.findAll({
+        where:{
+            refresh_token: refresToken
+        }
+    })
+    if(!user[0]) return res.sendStatus(204)
+    const userId = user[0].id
+    await Users.update({refresh_token: null},{
+        where:{
+            id: userId
+        }
+    })
+    res.clearCookie('refresh_token')
+    return res.sendStatus(200).json({message:"Berhasil Logout"})
+}
+
 const test = async(req, res) => {
     res.send("hallo")
 }
 
-module.exports= { getUsers, register, test, login };
+module.exports= { getUsers, register, test, login, logout };
