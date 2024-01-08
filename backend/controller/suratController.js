@@ -11,7 +11,13 @@ const uploadFile = async(req, res) => {
     }catch(error){
         console.log(error)
     }
+}
 
+const approveSurat = async(req, res) => {
+    try{
+        
+    }catch{
 
+    }
 }
 module.exports = uploadFile
