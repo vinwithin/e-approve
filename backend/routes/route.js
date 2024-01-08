@@ -2,10 +2,11 @@ const { getUsers, register, test, login, logout } = require("../controller/userC
 const express = require('express')
 const verifyToken  = require("../middleware/verifyToken")
 const refreshToken = require('../controller/refreshToken')
-const uploadFile = require('../controller/suratController')
+const { uploadFile, approveSurat } = require('../controller/suratController')
 const { check, validationResult } = require('express-validator')
 
 const multer = require('multer')
+const Surat = require("../model/Surat")
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -38,5 +39,6 @@ router.post('/login', login)
 router.get('/token', refreshToken)
 router.delete('/logout', logout)
 router.post('/upload', verifyToken, upload.single('file'), uploadFile )
-
+router.put('/approve/:id', verifyToken, approveSurat)
+router.put('/reject/:id', verifyToken, approveSurat)
 module.exports = router;

@@ -14,10 +14,31 @@ const uploadFile = async(req, res) => {
 }
 
 const approveSurat = async(req, res) => {
+    const id = req.params.id
     try{
-        
-    }catch{
-
+      await Surat.update({revisi: false},{
+        where:{
+            id: id
+        }
+      })
+      res.json({message: "berhasil menyetujui"})
+    }catch(error){
+      console.log(error)
     }
 }
-module.exports = uploadFile
+
+const rejectSurat = async(req, res) => {
+  const id = req.params.id
+  const comment = req.body.comment
+  if(!comment) return res.json({message: "wajib menuliskan komentar"})
+  try{
+    await Surat.update({revisi: false, comment:comment},{
+      where:{
+        id: id
+      }
+    })
+  }catch{
+    res.json({message: "gagal mengubah data"})
+  }
+}
+module.exports = { uploadFile, approveSurat }
