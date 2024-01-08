@@ -1,5 +1,6 @@
 const express = require('express')
 const db = require('./config/database')
+const Surat = require('./model/Surat')
 const router = require('./routes/route')
 const cookieParser = require('cookie-parser')
 
@@ -10,6 +11,7 @@ const port = 3000
 // try{
 //     db.authenticate();
 //     console.log("database terhubung")
+//     Surat.sync()
 // }catch(error){
 //     console.log(error)
 // }

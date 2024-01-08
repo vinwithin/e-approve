@@ -8,7 +8,7 @@ const verifyToken = (req, res, next)=> {
     if (token == null) return res.sendStatus(401)
     jwt.verify(token, process.env.PRIVATE_ACCESS_TOKEN, (err, decoded) => {
         if(err) return res.sendStatus(403)
-        // req.email = email.decoded
+        req.userId = decoded.userId
         next()
     })
 }
