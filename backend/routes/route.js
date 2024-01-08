@@ -2,7 +2,7 @@ const { getUsers, register, test, login, logout } = require("../controller/userC
 const express = require('express')
 const verifyToken  = require("../middleware/verifyToken")
 const refreshToken = require('../controller/refreshToken')
-const uploadfile = require('../controller/suratController')
+const uploadFile = require('../controller/suratController')
 
 const multer = require('multer')
 
@@ -25,6 +25,6 @@ router.post('/register', register)
 router.post('/login', login)
 router.get('/token', refreshToken)
 router.delete('/logout', logout)
-router.post('/upload', verifyToken, upload.single('file'), uploadfile )
+router.post('/upload', verifyToken, upload.single('file'), uploadFile )
 
 module.exports = router;

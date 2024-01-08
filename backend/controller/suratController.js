@@ -7,6 +7,7 @@ const uploadFile = async(req, res) => {
             name: req.file.filename,
             userId : req.userId
         })
+        res.json({message: "berhasil upload"})
     }catch(error){
         console.log(error)
     }
