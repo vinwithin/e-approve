@@ -32,7 +32,7 @@ const rejectSurat = async(req, res) => {
   const comment = req.body.comment
   if(!comment) return res.json({message: "wajib menuliskan komentar"})
   try{
-    await Surat.update({revisi: false, comment:comment},{
+    await Surat.update({revisi: true, comment:comment},{
       where:{
         id: id
       }
