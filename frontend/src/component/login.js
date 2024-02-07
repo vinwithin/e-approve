@@ -65,7 +65,7 @@ const Login = () => {
               </div>
             </div>
             <div >
-                <span><a className="text-sm font-medium leading-6 text-dark">Tidak Punya Akun?</a><a href="#" className="text-sm font-medium leading-6 text-blue-700">&nbsp; Register</a></span>
+                <span><a className="text-sm font-medium leading-6 text-dark">Dont Have an Account?</a><a href="/register" className="text-sm font-medium leading-6 text-blue-700">&nbsp; Register</a></span>
             </div>
             <div>
               <button
