@@ -1,8 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 const Dashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [name, setName] = useState('');
+  const [token, setToken] = useState('');
 
+  useEffect(() => {
+    refreshToken();
+  },[]);
+  const refreshToken = async() => {
+    const response = await axios.get('http://localhost:8000/token');
+    setToken(response.data.accessToken);
+    const decode = jwtDecode(response.data.accessToken);
+    setName(decode.name);
+  }
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -66,9 +81,12 @@ const Dashboard = () => {
             </h1>
           </div>
         </nav>
+        <h1>Welcome back, {name}</h1>
       </div>
+      
     </div>
+    
   );
 };
 
-export default Dashboard;
+export default  Dashboard ;

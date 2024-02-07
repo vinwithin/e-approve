@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Register= () => {
   const [name, setName] = useState('');
@@ -13,7 +13,7 @@ const Register= () => {
   const Register = async(e) => {
       e.preventDefault();
       try{
-        await axios.post('http://localhost:5000/api/register',{
+        await axios.post('http://localhost:8000/register',{
           name : name, 
           email : email,
           password : password,
@@ -22,7 +22,7 @@ const Register= () => {
         navigate('/');
         }catch(error){
           if(error.response){
-            setMsg(error.response.data.msg);
+            console.log(error.response.data.msg);
           }
         }
   };
@@ -41,7 +41,7 @@ const Register= () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form onSubmit={ Register } className="space-y-6" method="POST">
+          <form onSubmit={ Register } className="space-y-6" >
           <div>
               <label
                 htmlFor="name"
