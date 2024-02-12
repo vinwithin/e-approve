@@ -37,13 +37,12 @@ const login = async(req, res) => {
                 email: req.body.email
             }
         })
+        if(!user) return res.status(401).send({message: 'Email tidak terdaftar'});
         const matchPassword = await bcrypt.compare(req.body.password, user[0].password)
-        if(!matchPassword){
-            res.status(400).json({message:"password salah"})
-        }
-        const userId = user[0].id
-        const name = user[0].name
-        const email = user[0].email
+        if(!matchPassword) return res.status(400).send({message: 'Password salah'});
+        const userId = user[0].id;
+        const name = user[0].name;
+        const email = user[0].email;
         const accessToken = jwt.sign({userId, name, email }, process.env.PRIVATE_ACCESS_TOKEN, {
             expiresIn: '60s'
         })
