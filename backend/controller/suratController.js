@@ -1,10 +1,14 @@
-const Surat = require('../model/Surat')
+const Surat = require('../model/Surat');
 
 
 const uploadFile = async(req, res) => {
+  const name = req.body.name;
+  const name_letter = req.body.name_letter;
     try{
         await Surat.create({
-            name: req.file.filename,
+            name: name,
+            name_letter:name_letter,
+            file: req.file.filename,
             userId : req.userId
         })
         res.json({message: "berhasil upload"})

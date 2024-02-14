@@ -6,6 +6,12 @@ const Surat = db.define('surat',{
     name:{
         type: DataTypes.STRING
     },
+    name_letter:{
+        type: DataTypes.STRING
+    },
+    file:{
+        type: DataTypes.TEXT
+    },
     userId: {
         type: DataTypes.INTEGER
     },
