@@ -4,6 +4,14 @@ const User = require('./User');
 
 const { DataTypes } = Sequelize;
 const Surat = db.define('surat',{
+    uuid:{
+        type: DataTypes.STRING,
+        defaultValue: DataTypes.UUIDV4,
+        allowNull: false,
+        validate:{
+            notEmpty: true
+        }
+    },
     name:{
         type: DataTypes.STRING,
         allowNull: false,

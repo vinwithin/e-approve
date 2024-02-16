@@ -1,4 +1,5 @@
 const Surat = require('../model/Surat');
+const User = require('../model/User');
 
 
 const uploadFile = async(req, res) => {
@@ -19,7 +20,23 @@ const uploadFile = async(req, res) => {
 
 const getSurat = async(req, res) => {
   try{
-    const response = await Surat.findAll();
+    let response;
+    if(req.role  == 'admin'){
+      const response = await Surat.findAll({
+        include:[{
+          model:User
+        }]
+      });
+    }else{
+      const response = await Surat.findAll({
+        where:{
+          userId:req.userId
+        },
+        include:[{
+          model:User
+        }]
+      })
+    };
     res.status(200).json(response);
   }catch(error){
     res.status(500).json({msg: "gagal mengambil data"})

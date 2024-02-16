@@ -46,7 +46,7 @@ const Sidebar = ({ children }) => {
               href="#"
               className="block py-2 px-4 text-gray-200 hover:bg-gray-700"
             >
-              Messages
+              Kelola User
             </a>
           </nav>
         </div>
