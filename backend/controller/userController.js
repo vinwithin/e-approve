@@ -83,8 +83,6 @@ const logout = async(req, res) => {
     return res.sendStatus(200).json({message:"Berhasil Logout"})
 }
 
-const test = async(req, res) => {
-    res.send("hallo")
-}
 
-module.exports= { getUsers, register, test, login, logout };
+
+module.exports= { getUsers, register, login, logout };

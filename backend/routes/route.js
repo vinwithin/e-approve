@@ -1,8 +1,8 @@
-const { getUsers, register, test, login, logout } = require("../controller/userController")
+const { getUsers, register, login, logout } = require("../controller/userController")
 const express = require('express')
 const verifyToken  = require("../middleware/verifyToken")
 const refreshToken = require('../controller/refreshToken')
-const { uploadFile, approveSurat } = require('../controller/suratController')
+const { uploadFile, approveSurat, getSurat } = require('../controller/suratController')
 const { check, validationResult } = require('express-validator')
 
 const multer = require('multer')
@@ -21,19 +21,12 @@ const storage = multer.diskStorage({
     }
   }) ;
 
-const upload = multer({ storage: storage, 
-  fileFilter: (req, file, cb) => {
-    if(file.mimetype === "aplication/pdf"){
-      cb(null, true);
-    }else{
-      cb(new Error("Format file tidak sesuai"))
-    }
-}, });
+const upload = multer({ storage: storage });
 
 const router = express.Router()
 
 router.get('/users', verifyToken, getUsers)
-router.get('/', test)
+router.get('/', verifyToken, getSurat)
 router.post('/register', register)
 router.post('/login', login)
 router.get('/token', refreshToken)

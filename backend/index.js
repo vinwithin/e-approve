@@ -5,10 +5,12 @@ const router = require('./routes/route')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 
-const app = express()
-const port = 8000
+const app = express();
+const port = 8000;
 
-
+// (async() => {
+//   await db.sync();
+// })();
 // try{
 //     db.authenticate();
 //     console.log("database terhubung")
