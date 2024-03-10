@@ -5,13 +5,17 @@ import { useNavigate } from "react-router-dom";
 
 const Surat = () => {
     const [name, setName] = useState("");
+    const [letter, setLetter] = useState("");
     const [token, setToken] = useState("");
     const [expired, setExpired] = useState("");
     const navigate = useNavigate();
   
     useEffect(() => {
       refreshToken();
+      getUsers();
+
     }, []);
+  
     
     const refreshToken = async () => {
       try {
@@ -54,6 +58,20 @@ const Surat = () => {
       });
       console.log(response.data);
     };
+    // const getLetter = async () => {
+    //   try{
+    //   const response = await axios.get("http://localhost:8000", {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //   });
+    //   console.log(response);
+    //   setLetter(response.data);
+    // }catch(error){
+    //   console.log(error)
+    // }
+     
+    // };
   
   return (
     <div>
@@ -71,7 +89,8 @@ const Surat = () => {
                 </tr>
               </thead>
               <tbody className="bg-white">
-                <tr className="text-gray-700">
+              {/* {letter.map((data, index) => ( */}
+                <tr  className="text-gray-700">
                   <td className="px-4 py-3 border">
                     <div className="flex items-center text-sm">
                       <div className="relative w-8 h-8 mr-3 rounded-full md:block">
@@ -87,8 +106,8 @@ const Surat = () => {
                         ></div>
                       </div>
                       <div>
-                        <p className="font-semibold text-black">Sufyan</p>
-                        <p className="text-xs text-gray-600">Developer</p>
+                        {/* <p className="font-semibold text-black">{data.name}</p> */}
+                        {/* <p className="text-xs text-gray-600">Developer</p> */}
                       </div>
                     </div>
                   </td>
@@ -101,7 +120,7 @@ const Surat = () => {
                   </td>
                   <td className="px-4 py-3 text-sm border">6/4/2000</td>
                 </tr>
-               
+                {/* ))} */}
                     
               </tbody>
             </table>

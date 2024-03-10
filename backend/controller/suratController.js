@@ -22,13 +22,13 @@ const getSurat = async(req, res) => {
   try{
     let response;
     if(req.role  == 'admin'){
-      const response = await Surat.findAll({
+      response = await Surat.findAll({
         include:[{
           model:User
         }]
       });
     }else{
-      const response = await Surat.findAll({
+       response = await Surat.findAll({
         where:{
           userId:req.userId
         },
@@ -71,4 +71,4 @@ const rejectSurat = async(req, res) => {
     res.status(400).json({message: "gagal mengubah data"})
   }
 }
-module.exports = { uploadFile, approveSurat, getSurat }
+module.exports = { uploadFile, approveSurat, getSurat, rejectSurat }

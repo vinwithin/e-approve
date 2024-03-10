@@ -5,12 +5,14 @@ import { useNavigate } from "react-router-dom";
 
 const User = () => {
     const [name, setName] = useState("");
+    const [surat, setSurat] = useState("");
     const [token, setToken] = useState("");
     const [expired, setExpired] = useState("");
     const navigate = useNavigate();
   
     useEffect(() => {
       refreshToken();
+      getSurat();
     }, []);
     
     const refreshToken = async () => {
@@ -46,17 +48,24 @@ const User = () => {
       }
     );
   
-    const getUsers = async () => {
-      const response = await axios.get("http://localhost:8000/users", {
+    const getSurat = async () => {
+      try{
+      const response = await axios.get("http://localhost:8000/", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data);
+      //console.log(response.data);
+      setSurat(response.data);
+    }catch(error){
+      console.log(error)
+    }
+     
     };
   
   return (
-    <div>
+    <>
+   
        <section className="container mx-auto p-6 font-mono">
       <h1 className="mb-2">Welcome Back {name}</h1>
         <div className="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
@@ -70,7 +79,8 @@ const User = () => {
                 </tr>
               </thead>
               <tbody className="bg-white">
-                <tr className="text-gray-700">
+              {surat.map((data, index) => (
+                <tr key={data.id} className="text-gray-700">
                   <td className="px-4 py-3 border">
                     <div className="flex items-center text-sm">
                       <div className="relative w-8 h-8 mr-3 rounded-full md:block">
@@ -86,8 +96,8 @@ const User = () => {
                         ></div>
                       </div>
                       <div>
-                        <p className="font-semibold text-black">Sufyan</p>
-                        <p className="text-xs text-gray-600">Developer</p>
+                        <p className="font-semibold text-black">{data.name}</p>
+                        {/* <p className="text-xs text-gray-600">Developer</p> */}
                       </div>
                     </div>
                   </td>
@@ -98,15 +108,17 @@ const User = () => {
                       Acceptable{" "}
                     </span>
                   </td>
+                 
                 </tr>
-               
+                ))}
                     
               </tbody>
             </table>
           </div>
         </div>
       </section>
-    </div>
+    
+    </>
   )
 }
 
