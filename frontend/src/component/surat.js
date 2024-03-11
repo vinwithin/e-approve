@@ -2,53 +2,21 @@ import React, {useState, useEffect} from "react";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { apiService } from "./apiService";
 
 const Surat = () => {
-    const [name, setName] = useState("");
     const [letter, setLetter] = useState("");
-    const [token, setToken] = useState("");
-    const [expired, setExpired] = useState("");
-    const navigate = useNavigate();
+    const { token, refreshToken, name } = apiService();
+    
   
     useEffect(() => {
-      refreshToken();
+      refreshToken;
       getUsers();
 
     }, []);
   
     
-    const refreshToken = async () => {
-      try {
-        const response = await axios.get("http://localhost:8000/token");
-        setToken(response.data.accessToken);
-        const decode = jwtDecode(response.data.accessToken);
-        setName(decode.name);
-        setExpired(decode.exp);
-      } catch (error) {
-        if (error.response) {
-          navigate("/login");
-        }
-      }
-    };
-  
-    const axiosJWT = axios.create();
-    axiosJWT.interceptors.request.use(
-      async (config) => {
-        const currendDate = new Date();
-        if (expired * 1000 < currendDate.getTime()) {
-          const response = await axios.get("http://localhost:8000/token");
-          config.headers.Authorization = `Bearer ${response.data.accessToken}`;
-          setToken(response.data.accessToken);
-          const decode = jwtDecode(response.data.accessToken);
-          setName(decode.name);
-          setExpired(decode.exp);
-        }
-        return config;
-      },
-      (error) => {
-        return Promise.reject(error);
-      }
-    );
+    
   
     const getUsers = async () => {
       const response = await axios.get("http://localhost:8000/users", {
