@@ -3,14 +3,14 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "./sidebar";
+import ApiService from "./apiService";
 
 const PostSurat = () => {
-    const [token, setToken] = useState('');
-    const [nama, setNama] = useState('');
-    const [name, setName] = useState('');
+    
+    const { refreshToken, axiosJWT, token } = ApiService();
+    const [user, setUser] = useState('');
     const [name_letter, setName_letter] = useState('');
     const [selectedFile, setSelectedFile] = useState(null);
-    const [expired, setExpired] = useState('');
     const [msg, setMsg] = useState('');
     const [success, setSuccess] = useState('');
     const navigate = useNavigate();
@@ -19,21 +19,7 @@ const PostSurat = () => {
         refreshToken();
       }, []);
       
-      const refreshToken = async () => {
-        try {
-          const response = await axios.get("http://localhost:8000/token");
-          setToken(response.data.accessToken);
-          const decode = jwtDecode(response.data.accessToken);
-          setNama(decode.name);
-          setExpired(decode.exp);
-
-        } catch (error) {
-          if (error.response) {
-            navigate("/login");
-          }
-        }
-      };
-
+      
       const handleFileChange = (event) => {
         setSelectedFile(event.target.files[0]);
       }
@@ -42,7 +28,7 @@ const PostSurat = () => {
         try{
             e.preventDefault();
             const data = {
-              name: name,
+              name: user,
               name_letter: name_letter,
               file: selectedFile,
             };
@@ -52,8 +38,8 @@ const PostSurat = () => {
                 'Content-Type': 'multipart/form-data' 
             },
             }
-            await axios.post('http://127.0.0.1:8000/upload', data, config);
-            setName('');
+            await axiosJWT.post('http://127.0.0.1:8000/upload', data, config);
+            setUser('');
             setName_letter('');
             setSelectedFile(null);
             setSuccess("berhasil mengupload surat");
@@ -65,24 +51,7 @@ const PostSurat = () => {
             setMsg("gagal mengupload surat");
         }
       }
-      const axiosJWT = axios.create();
-      axiosJWT.interceptors.request.use(
-      async (config) => {
-        const currendDate = new Date();
-        if (expired * 1000 < currendDate.getTime()) {
-          const response = await axios.get("http://localhost:8000/token");
-          config.headers.Authorization = `Bearer ${response.data.accessToken}`;
-          setToken(response.data.accessToken);
-          const decode = jwtDecode(response.data.accessToken);
-          setNama(decode.name);
-          setExpired(decode.exp);
-        }
-        return config;
-      },
-      (error) => {
-        return Promise.reject(error);
-      }
-    );
+     
   return (
     <>
     <Sidebar>
@@ -99,7 +68,7 @@ const PostSurat = () => {
                 <input
                  type="text"
                 className="py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm"
-                 value={name} onChange={(e) => setName(e.target.value)}
+                 value={user} onChange={(e) => setUser(e.target.value)}
                  />
             </div>
             <label className="text-sm font-medium">

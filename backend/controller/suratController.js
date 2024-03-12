@@ -11,6 +11,7 @@ const uploadFile = async(req, res) => {
             name_letter:name_letter,
             file: req.file.filename,
             userId : req.userId,
+            status : "sedang diverifikasi"
         })
         res.json({message: "berhasil upload"})
     }catch(error){

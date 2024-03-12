@@ -25,7 +25,7 @@ const upload = multer({ storage: storage });
 
 const router = express.Router()
 
-router.get('/users', verifyToken, adminOnly , getUsers)
+router.get('/users', verifyToken, getUsers)
 router.get('/', verifyToken, adminOnly, getSurat)
 router.post('/register', register)
 router.post('/login', login)

@@ -20,7 +20,7 @@ const refreshToken = async(req, res) => {
             const email = user[0].email
             const role = user[0].role
             const accessToken =  jwt.sign({userId, name, email, role}, process.env.PRIVATE_ACCESS_TOKEN, {
-                expiresIn: '20s'
+                expiresIn: '60s'
             })
             res.json({ accessToken })
         }); 

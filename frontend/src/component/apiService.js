@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
-const apiService = () => {
+const ApiService = () => {
     const [name, setName] = useState("");
     const [token, setToken] = useState('');
     const [expired, setExpired] = useState('');
@@ -18,13 +18,13 @@ const apiService = () => {
           const decode = jwtDecode(response.data.accessToken);
           setName(decode.name);
           setExpired(decode.exp);
+         
         } catch (error) {
           if (error.response) {
             navigate("/login");
           }
         }
       };
-    
       const axiosJWT = axios.create();
       axiosJWT.interceptors.request.use(
         async (config) => {
@@ -43,7 +43,8 @@ const apiService = () => {
           return Promise.reject(error);
         }
       );
-      return { token, name, refreshToken };
+     
+      return { token, name, refreshToken, axiosJWT };
 }
 
-export default apiService
+export default ApiService;
