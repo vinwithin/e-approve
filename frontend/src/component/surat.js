@@ -59,6 +59,7 @@ const Surat = () => {
                   <th className="px-4 py-3">Nama Surat</th>
                   <th className="px-4 py-3">Status</th>
                   <th className="px-4 py-3">Date</th>
+                  <th className="px-4 py-3">Action</th>
                 </tr>
               </thead>
               <tbody className="bg-white">
@@ -90,7 +91,13 @@ const Surat = () => {
                       {data.status}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-sm border">6/4/2000</td>
+                  <td className="px-4 py-3 text-sm border">{new Date(data.createdAt).toLocaleString()}</td>
+                  <td className="px-4 py-3 text-sm border">
+                  <span>
+                    <a className="py-2 px-3 mr-2 border border-transparent rounded-md shadow-sm text-xs font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Terima</a>
+                    <a className="py-2 px-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-600">Tolak</a>
+                    </span>
+                  </td>
                 </tr>
                 ))}
                     
