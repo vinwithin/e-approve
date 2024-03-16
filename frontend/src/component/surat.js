@@ -8,6 +8,7 @@ const Surat = () => {
     const [letter, setLetter] = useState([]);
     const [user, setUser] = useState([]);
     const { token, refreshToken, name, axiosJWT } = ApiService();
+    const [msg, setMsg] = useState("");
     
 
 
@@ -17,16 +18,18 @@ const Surat = () => {
     },[token] );
    
 
-
-    
-    const getUsers = async () => {
-      const response = await axiosJWT.get("http://localhost:8000/users", {
-        headers: {
-          Authorization : `Bearer ${token}`,
-        },
+    const handleApprove = async(id) => {
+      try{
+      await axiosJWT.delete(`http://localhost:8000/${id}`,{
+        headers:{
+          Authorization: `Bearer ${token}`, 
+        }
       });
-      setUser(response.data);
+    }catch(erorr){
+      setMsg("Gagal Mengubah Data");
+    }
     };
+
 
     const getLetter = async () => {
       try{
@@ -94,7 +97,7 @@ const Surat = () => {
                   <td className="px-4 py-3 text-sm border">{new Date(data.createdAt).toLocaleString()}</td>
                   <td className="px-4 py-3 text-sm border">
                   <span>
-                    <a className="py-2 px-3 mr-2 border border-transparent rounded-md shadow-sm text-xs font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Terima</a>
+                    <button onClick={() => {handleApprove(data.id)}} className="py-2 px-3 mr-2 border border-transparent rounded-md shadow-sm text-xs font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Terima</button>
                     <a className="py-2 px-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-600">Tolak</a>
                     </span>
                   </td>
